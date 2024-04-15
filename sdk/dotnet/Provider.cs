@@ -7,7 +7,7 @@ using System.Collections.Immutable;
 using System.Threading.Tasks;
 using Pulumi.Serialization;
 
-namespace Pulumi.PNAP
+namespace Pulumi.Pnap
 {
     /// <summary>
     /// The provider type for the pnap package. By default, resources use package-wide configuration
@@ -15,8 +15,19 @@ namespace Pulumi.PNAP
     /// construction to achieve fine-grained programmatic control over provider settings. See the
     /// [documentation](https://www.pulumi.com/docs/reference/programming-model/#providers) for more information.
     /// </summary>
-    public partial class Provider : Pulumi.ProviderResource
+    [PnapResourceType("pulumi:providers:pnap")]
+    public partial class Provider : global::Pulumi.ProviderResource
     {
+        [Output("clientId")]
+        public Output<string?> ClientId { get; private set; } = null!;
+
+        [Output("clientSecret")]
+        public Output<string?> ClientSecret { get; private set; } = null!;
+
+        [Output("configFilePath")]
+        public Output<string?> ConfigFilePath { get; private set; } = null!;
+
+
         /// <summary>
         /// Create a Provider resource with the given unique name, arguments, and options.
         /// </summary>
@@ -34,6 +45,11 @@ namespace Pulumi.PNAP
             var defaultOptions = new CustomResourceOptions
             {
                 Version = Utilities.Version,
+                PluginDownloadURL = "https://github.com/phoenixnap/pulumi-pnap/releases/",
+                AdditionalSecretOutputs =
+                {
+                    "clientSecret",
+                },
             };
             var merged = CustomResourceOptions.Merge(defaultOptions, options);
             // Override the ID if one was specified for consistency with other language SDKs.
@@ -42,10 +58,29 @@ namespace Pulumi.PNAP
         }
     }
 
-    public sealed class ProviderArgs : Pulumi.ResourceArgs
+    public sealed class ProviderArgs : global::Pulumi.ResourceArgs
     {
+        [Input("clientId")]
+        public Input<string>? ClientId { get; set; }
+
+        [Input("clientSecret")]
+        private Input<string>? _clientSecret;
+        public Input<string>? ClientSecret
+        {
+            get => _clientSecret;
+            set
+            {
+                var emptySecret = Output.CreateSecret(0);
+                _clientSecret = Output.Tuple<Input<string>?, int>(value, emptySecret).Apply(t => t.Item1);
+            }
+        }
+
+        [Input("configFilePath")]
+        public Input<string>? ConfigFilePath { get; set; }
+
         public ProviderArgs()
         {
         }
+        public static new ProviderArgs Empty => new ProviderArgs();
     }
 }

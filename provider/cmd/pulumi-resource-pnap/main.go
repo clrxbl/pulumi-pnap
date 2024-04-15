@@ -17,11 +17,15 @@
 package main
 
 import (
-	"github.com/pulumi/pulumi-terraform-bridge/v2/pkg/tfbridge"
+	_ "embed"
 
-	pnap "github.com/phoenixnap/pulumi-pnap/provider/v2"
-	"github.com/phoenixnap/pulumi-pnap/provider/v2/pkg/version"
+	pnap "github.com/phoenixnap/pulumi-pnap/provider"
+	"github.com/phoenixnap/pulumi-pnap/provider/pkg/version"
+	"github.com/pulumi/pulumi-terraform-bridge/v3/pkg/tfbridge"
 )
+
+//go:embed schema-embed.json
+var pulumiSchema []byte
 
 func main() {
 	// Modify the path to point to the new provider

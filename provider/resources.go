@@ -1,4 +1,4 @@
-// Copyright 2016-2018, Pulumi Corporation.
+// Copyright 2016-2023, Pulumi Corporation.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,150 +15,166 @@
 package pnap
 
 import (
-	"unicode"
+	"path"
 
-	// "github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
-	prcko "github.com/phoenixnap/terraform-provider-pnap/pnap"
-	"github.com/pulumi/pulumi-terraform-bridge/v2/pkg/tfbridge"
-	"github.com/pulumi/pulumi/sdk/v2/go/common/resource"
-	"github.com/pulumi/pulumi/sdk/v2/go/common/tokens"
+	// Allow embedding bridge-metadata.json in the provider.
+	_ "embed"
+
+	"github.com/pulumi/pulumi-terraform-bridge/v3/pkg/tfbridge"
+	"github.com/pulumi/pulumi-terraform-bridge/v3/pkg/tfbridge/tokens"
+	shim "github.com/pulumi/pulumi-terraform-bridge/v3/pkg/tfshim"
+	shimv2 "github.com/pulumi/pulumi-terraform-bridge/v3/pkg/tfshim/sdk-v2"
+	"github.com/pulumi/pulumi/sdk/v3/go/common/resource"
+
+	// Replace this provider with the provider you are bridging.
+	pnap "github.com/phoenixnap/terraform-provider-pnap/pnap"
+
+	"github.com/phoenixnap/pulumi-pnap/provider/pkg/version"
 )
 
 // all of the token components used below.
 const (
-	// packages:
+	// This variable controls the default name of the package in the package
+	// registries for nodejs and python:
 	mainPkg = "pnap"
 	// modules:
-	mainMod = "index" // the y module
+	mainMod = "index" // the pnap module
 )
-
-// makeMember manufactures a type token for the package and the given module and type.
-func makeMember(mod string, mem string) tokens.ModuleMember {
-	return tokens.ModuleMember(mainPkg + ":" + mod + ":" + mem)
-}
-
-// makeType manufactures a type token for the package and the given module and type.
-func makeType(mod string, typ string) tokens.Type {
-	return tokens.Type(makeMember(mod, typ))
-}
-
-// makeDataSource manufactures a standard resource token given a module and resource name.  It
-// automatically uses the main package and names the file by simply lower casing the data source's
-// first character.
-func makeDataSource(mod string, res string) tokens.ModuleMember {
-	fn := string(unicode.ToLower(rune(res[0]))) + res[1:]
-	return makeMember(mod+"/"+fn, res)
-}
-
-// makeResource manufactures a standard resource token given a module and resource name.  It
-// automatically uses the main package and names the file by simply lower casing the resource's
-// first character.
-func makeResource(mod string, res string) tokens.Type {
-	fn := string(unicode.ToLower(rune(res[0]))) + res[1:]
-	return makeType(mod+"/"+fn, res)
-}
 
 // preConfigureCallback is called before the providerConfigure function of the underlying provider.
 // It should validate that the provider can be configured, and provide actionable errors in the case
 // it cannot be. Configuration variables can be read from `vars` using the `stringValue` function -
 // for example `stringValue(vars, "accessKey")`.
-func preConfigureCallback(vars resource.PropertyMap, c *terraform.ResourceConfig) error {
+func preConfigureCallback(resource.PropertyMap, shim.ResourceConfig) error {
 	return nil
 }
 
+//go:embed cmd/pulumi-resource-pnap/bridge-metadata.json
+var metadata []byte
+
 // Provider returns additional overlaid schema and metadata associated with the provider..
 func Provider() tfbridge.ProviderInfo {
-	// Instantiate the Terraform provider
-	p := prcko.Provider()
-
 	// Create a Pulumi provider mapping
 	prov := tfbridge.ProviderInfo{
-		P:                    p,
-		Name:                 "pnap",
-		Description:          "A PNAP package for creating and managing cloud resources.",
-		Keywords:             []string{"pulumi", "pnap"},
-		License:              "Apache-2.0",
-		Homepage:             "https://pulumi.io",
-		Repository:           "https://github.com/phoenixnap/pulumi-pnap",
-		Config:               map[string]*tfbridge.SchemaInfo{},
+		// Instantiate the Terraform provider
+		P:       shimv2.NewProvider(pnap.Provider()),
+		Name:    "pnap",
+		Version: version.Version,
+		// DisplayName is a way to be able to change the casing of the provider
+		// name when being displayed on the Pulumi registry
+		DisplayName: "PhoenixNAP",
+		// The default publisher for all packages is Pulumi.
+		// Change this to your personal name (or a company name) that you
+		// would like to be shown in the Pulumi Registry if this package is published
+		// there.
+		Publisher: "phoenixnap",
+		// LogoURL is optional but useful to help identify your package in the Pulumi Registry
+		// if this package is published there.
+		//
+		// You may host a logo on a domain you control or add an SVG logo for your package
+		// in your repository and use the raw content URL for that file as your logo URL.
+		LogoURL: "",
+		// PluginDownloadURL is an optional URL used to download the Provider
+		// for use in Pulumi programs
+		// e.g https://github.com/org/pulumi-provider-name/releases/
+		PluginDownloadURL: "https://github.com/phoenixnap/pulumi-pnap/releases/",
+		Description:       "A Pulumi package for creating and managing PhoenixNAP BMC resources.",
+		// category/cloud tag helps with categorizing the package in the Pulumi Registry.
+		// For all available categories, see `Keywords` in
+		// https://www.pulumi.com/docs/guides/pulumi-packages/schema/#package.
+		Keywords:   []string{"phoenixnap", "pnap", "category/cloud"},
+		License:    "Apache-2.0",
+		Homepage:   "https://www.phoenixnap.com",
+		Repository: "https://github.com/phoenixnap/pulumi-pnap",
+		// The GitHub Org for the provider - defaults to `terraform-providers`. Note that this
+		// should match the TF provider module's require directive, not any replace directives.
+		GitHubOrg:    "phoenixnap",
+		MetadataInfo: tfbridge.NewProviderMetadata(metadata),
+		Config:       map[string]*tfbridge.SchemaInfo{
+			// Add any required configuration here, or remove the example below if
+			// no additional points are required.
+			// "region": {
+			// 	Type: tfbridge.MakeType("region", "Region"),
+			// 	Default: &tfbridge.DefaultInfo{
+			// 		EnvVars: []string{"AWS_REGION", "AWS_DEFAULT_REGION"},
+			// 	},
+			// },
+		},
 		PreConfigureCallback: preConfigureCallback,
 		Resources: map[string]*tfbridge.ResourceInfo{
-			// Map each resource in the Terraform provider to a Pulumi type. An example
-			// is below.
-
-			"pnap_server": {
-				Tok: makeResource(mainMod, "Server"),
+			"pnap_public_network": {
 				Fields: map[string]*tfbridge.SchemaInfo{
-					"status": {
-						Type: "string",
-					},
-					"hostname": {
-						Type: "string",
-					},
-					"description": {
-						Type: "string",
-					},
-					"private_ip_addresses": {
-						Elem: &tfbridge.SchemaInfo{Type: "string"},
-					},
-					"public_ip_addresses": {
-						Elem: &tfbridge.SchemaInfo{Type: "string"},
-					},
-					"os": {
-						Type: "string",
-					},
-					"type": {
-						Type: "string",
-					},
-					"ssh_keys": {
-						Elem: &tfbridge.SchemaInfo{Type: "string"},
-					},
-					"location": {
-						Type: "string",
-					},
-					"cpu": {
-						Type: "string",
-					},
-					"ram": {
-						Type: "string",
-					},
-					"storage": {
-						Type: "string",
-					},
-					"action": {
-						Type: "string",
+					"ip_blocks": {
+						Elem: &tfbridge.SchemaInfo{
+							Fields: map[string]*tfbridge.SchemaInfo{
+								"public_network_ip_block": {CSharpName: "AssignedIpBlock"},
+							},
+						},
 					},
 				},
 			},
+			// Map each resource in the Terraform provider to a Pulumi type. Two examples
+			// are below - the single line form is the common case. The multi-line form is
+			// needed only if you wish to override types or other default options.
+			//
+			// "aws_iam_role": {Tok: tfbridge.MakeResource(mainPkg, mainMod, "IamRole")}
+			//
+			// "aws_acm_certificate": {
+			// 	Tok: tfbridge.MakeResource(mainPkg, mainMod, "Certificate"),
+			// 	Fields: map[string]*tfbridge.SchemaInfo{
+			// 		"tags": {Type: tfbridge.MakeType(mainPkg, "Tags")},
+			// 	},
+			// },
 		},
-
+		DataSources: map[string]*tfbridge.DataSourceInfo{
+			// Map each resource in the Terraform provider to a Pulumi function. An example
+			// is below.
+			// "aws_ami": {Tok: tfbridge.MakeDataSource(mainPkg, mainMod, "getAmi")},
+		},
 		JavaScript: &tfbridge.JavaScriptInfo{
 			// List any npm dependencies and their versions
 			Dependencies: map[string]string{
-				"@pulumi/pulumi": "2.0.0",
+				"@pulumi/pulumi": "^3.0.0",
 			},
 			DevDependencies: map[string]string{
-				"@types/node": "^8.0.25", // so we can access strongly typed node definitions.
+				"@types/node": "^10.0.0", // so we can access strongly typed node definitions.
 				"@types/mime": "^2.0.0",
 			},
+			// See the documentation for tfbridge.OverlayInfo for how to lay out this
+			// section, or refer to the AWS provider. Delete this section if there are
+			// no overlay files.
+			//Overlay: &tfbridge.OverlayInfo{},
 		},
 		Python: &tfbridge.PythonInfo{
 			// List any Python dependencies and their version ranges
 			Requires: map[string]string{
-				"pulumi": ">=2.0.0,<3.0.0",
+				"pulumi": ">=3.0.0,<4.0.0",
 			},
+		},
+		Golang: &tfbridge.GolangInfo{
+			ImportBasePath: path.Join(
+				"github.com/phoenixnap/pulumi-pnap/sdk/",
+				tfbridge.GetModuleMajorVersion(version.Version),
+				"go",
+				mainPkg,
+			),
+			GenerateResourceContainerTypes: true,
 		},
 		CSharp: &tfbridge.CSharpInfo{
 			PackageReferences: map[string]string{
-				"Pulumi":                       "2.*",
-				"System.Collections.Immutable": "1.6.0",
-			},
-			Namespaces: map[string]string{
-				mainPkg: "PNAP",
+				"Pulumi": "3.*",
 			},
 		},
 	}
+
+	// These are new API's that you may opt to use to automatically compute resource
+	// tokens, and apply auto aliasing for full backwards compatibility.  For more
+	// information, please reference:
+	// https://pkg.go.dev/github.com/pulumi/pulumi-terraform-bridge/v3/pkg/tfbridge#ProviderInfo.ComputeTokens
+	prov.MustComputeTokens(tokens.SingleModule("pnap_", mainMod,
+		tokens.MakeStandard(mainPkg)))
+	prov.MustApplyAutoAliases()
+	prov.SetAutonaming(255, "-")
 
 	return prov
 }

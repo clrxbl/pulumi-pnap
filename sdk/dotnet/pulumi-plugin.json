@@ -1,0 +1,5 @@
+{
+  "resource": true,
+  "name": "pnap",
+  "server": "https://github.com/phoenixnap/pulumi-pnap/releases/"
+}

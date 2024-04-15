@@ -15,9 +15,9 @@
 package main
 
 import (
-	pnap "github.com/phoenixnap/pulumi-pnap/provider/v2"
-	"github.com/pulumi/pulumi-terraform-bridge/v2/pkg/tfgen"
-	"github.com/phoenixnap/pulumi-pnap/provider/v2/pkg/version"
+	pnap "github.com/phoenixnap/pulumi-pnap/provider"
+	"github.com/phoenixnap/pulumi-pnap/provider/pkg/version"
+	"github.com/pulumi/pulumi-terraform-bridge/v3/pkg/tfgen"
 )
 
 func main() {

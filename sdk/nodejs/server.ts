@@ -2,8 +2,59 @@
 // *** Do not edit by hand unless you're certain you know what you are doing! ***
 
 import * as pulumi from "@pulumi/pulumi";
+import * as inputs from "./types/input";
+import * as outputs from "./types/output";
 import * as utilities from "./utilities";
 
+/**
+ * Provides a phoenixNAP server resource. This can be used to create,
+ * modify, and delete servers.
+ *
+ * ## Example Usage
+ *
+ * Create a server
+ *
+ * ```typescript
+ * import * as pulumi from "@pulumi/pulumi";
+ * import * as fs from "fs";
+ * import * as pnap from "@pulumi/pnap";
+ *
+ * // Create a server
+ * const test_Server_1 = new pnap.Server("test-Server-1", {
+ *     hostname: "Test-Server-1",
+ *     os: "ubuntu/bionic",
+ *     type: "s1.c1.medium",
+ *     location: "PHX",
+ *     installDefaultSshKeys: true,
+ *     sshKeys: ["ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDF9LdAFElNCi7JoWh6KUcchrJ2Gac1aqGRPpdZNowObpRtmiRCecAMb7bUgNAaNfcmwiQi7tos9TlnFgprIcfMWb8MSs3ABYHmBgqEEt3RWYf0fAc9CsIpJdMCUG28TPGTlRXCEUVNKgLMdcseAlJoGp1CgbHWIN65fB3he3kAZcfpPn5mapV0tsl2p+ZyuAGRYdn5dJv2RZDHUZBkOeUobwsij+weHCKAFmKQKtCP7ybgVHaQjAPrj8MGnk1jBbjDt5ws+Be+9JNjQJee9zCKbAOsIo3i+GcUIkrw5jxPU/RTGlWBcemPaKHdciSzGcjWboapzIy49qypQhZe1U75 user2@122.16.1.126"],
+ *     cloudInit: {
+ *         userData: Buffer.from(fs.readFileSync("~/terraform-provider-pnap/create-folder.txt", 'binary')).toString('base64'),
+ *     },
+ *     networkConfiguration: {
+ *         privateNetworkConfiguration: {
+ *             configurationType: "USER_DEFINED",
+ *             privateNetworks: [
+ *                 {
+ *                     serverPrivateNetwork: {
+ *                         id: pnap_private_network["Test-Network-33"].id,
+ *                         ips: ["10.0.0.12"],
+ *                     },
+ *                 },
+ *                 {
+ *                     serverPrivateNetwork: {
+ *                         id: pnap_private_network["Test-Network-44"].id,
+ *                         ips: ["172.16.0.12"],
+ *                     },
+ *                 },
+ *             ],
+ *         },
+ *     },
+ * });
+ * //pricing_model = "ONE_MONTH_RESERVATION"
+ * //allowed actions are: reboot, reset, powered-on, powered-off, shutdown
+ * //action = "powered-on"
+ * ```
+ */
 export class Server extends pulumi.CustomResource {
     /**
      * Get an existing Server resource's state with the given name, ID, and optional extra
@@ -12,6 +63,7 @@ export class Server extends pulumi.CustomResource {
      * @param name The _unique_ name of the resulting resource.
      * @param id The _unique_ provider ID of the resource to lookup.
      * @param state Any extra arguments used during the lookup.
+     * @param opts Optional settings to control the behavior of the CustomResource.
      */
     public static get(name: string, id: pulumi.Input<pulumi.ID>, state?: ServerState, opts?: pulumi.CustomResourceOptions): Server {
         return new Server(name, <any>state, { ...opts, id: id });
@@ -31,18 +83,157 @@ export class Server extends pulumi.CustomResource {
         return obj['__pulumiType'] === Server.__pulumiType;
     }
 
+    /**
+     * Action to perform on server. Allowed actions are: reboot, reset (deprecated), powered-on, powered-off, shutdown.
+     */
     public readonly action!: pulumi.Output<string | undefined>;
+    /**
+     * Cloud-init configuration details. Structure is documented below.
+     */
+    public readonly cloudInit!: pulumi.Output<outputs.ServerCloudInit>;
+    /**
+     * The cluster reference id if any.
+     */
+    public /*out*/ readonly clusterId!: pulumi.Output<string>;
+    /**
+     * The number of physical cores present on each CPU.
+     */
+    public /*out*/ readonly coresPerCpu!: pulumi.Output<number>;
+    /**
+     * A description of the machine CPU.
+     */
     public /*out*/ readonly cpu!: pulumi.Output<string>;
+    /**
+     * The number of CPUs available in the system.
+     */
+    public /*out*/ readonly cpuCount!: pulumi.Output<number>;
+    /**
+     * The CPU frequency in GHz.
+     */
+    public /*out*/ readonly cpuFrequencyInGhz!: pulumi.Output<number>;
+    /**
+     * Server description.
+     */
     public readonly description!: pulumi.Output<string | undefined>;
+    /**
+     * Query parameter controlling advanced features availability. Currently applicable for networking. It is advised to use with caution since it might lead to unhealthy setups.
+     *
+     *
+     * The `cloudInit` block has one field:
+     */
+    public readonly force!: pulumi.Output<boolean | undefined>;
+    /**
+     * Server hostname.
+     */
     public readonly hostname!: pulumi.Output<string>;
+    public readonly installDefaultSshKeys!: pulumi.Output<boolean | undefined>;
+    /**
+     * If true, OS will be installed to and booted from the server's RAM. On restart RAM OS will be lost and the server will not be reachable unless a custom bootable OS has been deployed. Only supported for ubuntu/focal. Default value is `false`.
+     */
+    public readonly installOsToRam!: pulumi.Output<boolean>;
+    /**
+     * Server Location ID. Cannot be changed once a server is created (e.g., PHX). For a full list of available locations visit [API docs](https://developers.phoenixnap.com/docs/bmc/1)
+     */
     public readonly location!: pulumi.Output<string>;
+    /**
+     * Define list of IPs allowed to access the Management UI. Supported in single IP, CIDR and range format. When undefined, Management UI is disabled.Must contain at least 1 item.
+     */
+    public readonly managementAccessAllowedIps!: pulumi.Output<string[]>;
+    /**
+     * The URL of the management UI which will only be returned in response to provisioning a server.
+     */
+    public /*out*/ readonly managementUiUrl!: pulumi.Output<string>;
+    /**
+     * Netris Controller configuration properties. Knowledge base article to help you can be found [here](https://phoenixnap.com/kb/netris-bare-metal-cloud#deploy-netris-controller).
+     */
+    public /*out*/ readonly netrisControllers!: pulumi.Output<outputs.ServerNetrisController[]>;
+    /**
+     * Netris Softgate configuration properties. Follow [instructions](https://phoenixnap.com/kb/netris-bare-metal-cloud#deploy-netris-softgate) for retrieving the required details. Structure is documented below.
+     */
+    public readonly netrisSoftgate!: pulumi.Output<outputs.ServerNetrisSoftgate>;
+    /**
+     * Entire network details of bare metal server. Structure is documented below.
+     */
+    public readonly networkConfiguration!: pulumi.Output<outputs.ServerNetworkConfiguration>;
+    /**
+     * The type of network configuration for this server. Currently this field should be set to PUBLIC_AND_PRIVATE, PRIVATE_ONLY, PUBLIC_ONLY or USER_DEFINED. Setting the force query parameter to `true` allows you to configure network configuration type as NONE.
+     */
+    public readonly networkType!: pulumi.Output<string>;
+    /**
+     * The server’s OS ID used when the server was created (e.g., ubuntu/bionic, centos/centos7). For a full list of available operating systems visit [API docs](https://developers.phoenixnap.com/docs/bmc/1).
+     */
     public readonly os!: pulumi.Output<string>;
+    /**
+     * Password set for user Admin on Windows server which will only be returned in response to provisioning a server.
+     */
+    public /*out*/ readonly password!: pulumi.Output<string>;
+    /**
+     * Server pricing model. Currently this field should be set to HOURLY, ONE_MONTH_RESERVATION, TWELVE_MONTHS_RESERVATION, TWENTY_FOUR_MONTHS_RESERVATION or THIRTY_SIX_MONTHS_RESERVATION.
+     */
+    public readonly pricingModel!: pulumi.Output<string>;
+    /**
+     * Private IP Addresses assigned to server. Must contain at least 1 item.
+     */
     public /*out*/ readonly privateIpAddresses!: pulumi.Output<string[]>;
+    /**
+     * Date and time when server was provisioned.
+     */
+    public /*out*/ readonly provisionedOn!: pulumi.Output<string>;
+    /**
+     * Public IP Addresses assigned to server. Must contain at least 1 item.
+     */
     public /*out*/ readonly publicIpAddresses!: pulumi.Output<string[]>;
+    /**
+     * A description of the machine RAM.
+     */
     public /*out*/ readonly ram!: pulumi.Output<string>;
-    public readonly sshKeys!: pulumi.Output<string[]>;
+    /**
+     * List of IPs allowed for RDP access to Windows OS. Supported in single IP, CIDR and range format. When undefined, RDP is disabled. To allow RDP access from any IP use 0.0.0.0/0. Must contain at least 1 item.
+     */
+    public readonly rdpAllowedIps!: pulumi.Output<string[]>;
+    /**
+     * Server reservation ID.
+     */
+    public readonly reservationId!: pulumi.Output<string>;
+    /**
+     * Password set for user root on an ESXi server which will only be returned in response to provisioning a server.
+     */
+    public /*out*/ readonly rootPassword!: pulumi.Output<string>;
+    /**
+     * A list of SSH key IDs that will be installed on the server in addition to any SSH keys specified in this request.
+     */
+    public readonly sshKeyIds!: pulumi.Output<string[] | undefined>;
+    /**
+     * A list of SSH Keys that will be installed on the server.
+     */
+    public readonly sshKeys!: pulumi.Output<string[] | undefined>;
+    /**
+     * The status of the server.
+     */
     public /*out*/ readonly status!: pulumi.Output<string>;
+    /**
+     * A description of the machine storage.
+     */
     public /*out*/ readonly storage!: pulumi.Output<string>;
+    /**
+     * Storage configuration. Structure is documented below.
+     */
+    public readonly storageConfiguration!: pulumi.Output<outputs.ServerStorageConfiguration | undefined>;
+    /**
+     * Unique identifier of the server to which the reservation has been transferred.
+     */
+    public /*out*/ readonly supersededBy!: pulumi.Output<string>;
+    /**
+     * Unique identifier of the server from which the reservation has been transferred.
+     */
+    public /*out*/ readonly supersedes!: pulumi.Output<string>;
+    /**
+     * Tags to set to server, if any. Structure is documented below.
+     */
+    public readonly tags!: pulumi.Output<outputs.ServerTag[] | undefined>;
+    /**
+     * Server type ID. Cannot be changed once a server is created (e.g., s1.c1.small, s1.c1.medium). For a full list of available types visit [API docs](https://developers.phoenixnap.com/docs/bmc/1).
+     */
     public readonly type!: pulumi.Output<string>;
 
     /**
@@ -54,61 +245,105 @@ export class Server extends pulumi.CustomResource {
      */
     constructor(name: string, args: ServerArgs, opts?: pulumi.CustomResourceOptions)
     constructor(name: string, argsOrState?: ServerArgs | ServerState, opts?: pulumi.CustomResourceOptions) {
-        let inputs: pulumi.Inputs = {};
-        if (opts && opts.id) {
+        let resourceInputs: pulumi.Inputs = {};
+        opts = opts || {};
+        if (opts.id) {
             const state = argsOrState as ServerState | undefined;
-            inputs["action"] = state ? state.action : undefined;
-            inputs["cpu"] = state ? state.cpu : undefined;
-            inputs["description"] = state ? state.description : undefined;
-            inputs["hostname"] = state ? state.hostname : undefined;
-            inputs["location"] = state ? state.location : undefined;
-            inputs["os"] = state ? state.os : undefined;
-            inputs["privateIpAddresses"] = state ? state.privateIpAddresses : undefined;
-            inputs["publicIpAddresses"] = state ? state.publicIpAddresses : undefined;
-            inputs["ram"] = state ? state.ram : undefined;
-            inputs["sshKeys"] = state ? state.sshKeys : undefined;
-            inputs["status"] = state ? state.status : undefined;
-            inputs["storage"] = state ? state.storage : undefined;
-            inputs["type"] = state ? state.type : undefined;
+            resourceInputs["action"] = state ? state.action : undefined;
+            resourceInputs["cloudInit"] = state ? state.cloudInit : undefined;
+            resourceInputs["clusterId"] = state ? state.clusterId : undefined;
+            resourceInputs["coresPerCpu"] = state ? state.coresPerCpu : undefined;
+            resourceInputs["cpu"] = state ? state.cpu : undefined;
+            resourceInputs["cpuCount"] = state ? state.cpuCount : undefined;
+            resourceInputs["cpuFrequencyInGhz"] = state ? state.cpuFrequencyInGhz : undefined;
+            resourceInputs["description"] = state ? state.description : undefined;
+            resourceInputs["force"] = state ? state.force : undefined;
+            resourceInputs["hostname"] = state ? state.hostname : undefined;
+            resourceInputs["installDefaultSshKeys"] = state ? state.installDefaultSshKeys : undefined;
+            resourceInputs["installOsToRam"] = state ? state.installOsToRam : undefined;
+            resourceInputs["location"] = state ? state.location : undefined;
+            resourceInputs["managementAccessAllowedIps"] = state ? state.managementAccessAllowedIps : undefined;
+            resourceInputs["managementUiUrl"] = state ? state.managementUiUrl : undefined;
+            resourceInputs["netrisControllers"] = state ? state.netrisControllers : undefined;
+            resourceInputs["netrisSoftgate"] = state ? state.netrisSoftgate : undefined;
+            resourceInputs["networkConfiguration"] = state ? state.networkConfiguration : undefined;
+            resourceInputs["networkType"] = state ? state.networkType : undefined;
+            resourceInputs["os"] = state ? state.os : undefined;
+            resourceInputs["password"] = state ? state.password : undefined;
+            resourceInputs["pricingModel"] = state ? state.pricingModel : undefined;
+            resourceInputs["privateIpAddresses"] = state ? state.privateIpAddresses : undefined;
+            resourceInputs["provisionedOn"] = state ? state.provisionedOn : undefined;
+            resourceInputs["publicIpAddresses"] = state ? state.publicIpAddresses : undefined;
+            resourceInputs["ram"] = state ? state.ram : undefined;
+            resourceInputs["rdpAllowedIps"] = state ? state.rdpAllowedIps : undefined;
+            resourceInputs["reservationId"] = state ? state.reservationId : undefined;
+            resourceInputs["rootPassword"] = state ? state.rootPassword : undefined;
+            resourceInputs["sshKeyIds"] = state ? state.sshKeyIds : undefined;
+            resourceInputs["sshKeys"] = state ? state.sshKeys : undefined;
+            resourceInputs["status"] = state ? state.status : undefined;
+            resourceInputs["storage"] = state ? state.storage : undefined;
+            resourceInputs["storageConfiguration"] = state ? state.storageConfiguration : undefined;
+            resourceInputs["supersededBy"] = state ? state.supersededBy : undefined;
+            resourceInputs["supersedes"] = state ? state.supersedes : undefined;
+            resourceInputs["tags"] = state ? state.tags : undefined;
+            resourceInputs["type"] = state ? state.type : undefined;
         } else {
             const args = argsOrState as ServerArgs | undefined;
-            if (!args || args.hostname === undefined) {
+            if ((!args || args.hostname === undefined) && !opts.urn) {
                 throw new Error("Missing required property 'hostname'");
             }
-            if (!args || args.location === undefined) {
+            if ((!args || args.location === undefined) && !opts.urn) {
                 throw new Error("Missing required property 'location'");
             }
-            if (!args || args.os === undefined) {
+            if ((!args || args.os === undefined) && !opts.urn) {
                 throw new Error("Missing required property 'os'");
             }
-            if (!args || args.sshKeys === undefined) {
-                throw new Error("Missing required property 'sshKeys'");
-            }
-            if (!args || args.type === undefined) {
+            if ((!args || args.type === undefined) && !opts.urn) {
                 throw new Error("Missing required property 'type'");
             }
-            inputs["action"] = args ? args.action : undefined;
-            inputs["description"] = args ? args.description : undefined;
-            inputs["hostname"] = args ? args.hostname : undefined;
-            inputs["location"] = args ? args.location : undefined;
-            inputs["os"] = args ? args.os : undefined;
-            inputs["sshKeys"] = args ? args.sshKeys : undefined;
-            inputs["type"] = args ? args.type : undefined;
-            inputs["cpu"] = undefined /*out*/;
-            inputs["privateIpAddresses"] = undefined /*out*/;
-            inputs["publicIpAddresses"] = undefined /*out*/;
-            inputs["ram"] = undefined /*out*/;
-            inputs["status"] = undefined /*out*/;
-            inputs["storage"] = undefined /*out*/;
+            resourceInputs["action"] = args ? args.action : undefined;
+            resourceInputs["cloudInit"] = args ? args.cloudInit : undefined;
+            resourceInputs["description"] = args ? args.description : undefined;
+            resourceInputs["force"] = args ? args.force : undefined;
+            resourceInputs["hostname"] = args ? args.hostname : undefined;
+            resourceInputs["installDefaultSshKeys"] = args ? args.installDefaultSshKeys : undefined;
+            resourceInputs["installOsToRam"] = args ? args.installOsToRam : undefined;
+            resourceInputs["location"] = args ? args.location : undefined;
+            resourceInputs["managementAccessAllowedIps"] = args ? args.managementAccessAllowedIps : undefined;
+            resourceInputs["netrisSoftgate"] = args ? args.netrisSoftgate : undefined;
+            resourceInputs["networkConfiguration"] = args ? args.networkConfiguration : undefined;
+            resourceInputs["networkType"] = args ? args.networkType : undefined;
+            resourceInputs["os"] = args ? args.os : undefined;
+            resourceInputs["pricingModel"] = args ? args.pricingModel : undefined;
+            resourceInputs["rdpAllowedIps"] = args ? args.rdpAllowedIps : undefined;
+            resourceInputs["reservationId"] = args ? args.reservationId : undefined;
+            resourceInputs["sshKeyIds"] = args ? args.sshKeyIds : undefined;
+            resourceInputs["sshKeys"] = args ? args.sshKeys : undefined;
+            resourceInputs["storageConfiguration"] = args ? args.storageConfiguration : undefined;
+            resourceInputs["tags"] = args ? args.tags : undefined;
+            resourceInputs["type"] = args ? args.type : undefined;
+            resourceInputs["clusterId"] = undefined /*out*/;
+            resourceInputs["coresPerCpu"] = undefined /*out*/;
+            resourceInputs["cpu"] = undefined /*out*/;
+            resourceInputs["cpuCount"] = undefined /*out*/;
+            resourceInputs["cpuFrequencyInGhz"] = undefined /*out*/;
+            resourceInputs["managementUiUrl"] = undefined /*out*/;
+            resourceInputs["netrisControllers"] = undefined /*out*/;
+            resourceInputs["password"] = undefined /*out*/;
+            resourceInputs["privateIpAddresses"] = undefined /*out*/;
+            resourceInputs["provisionedOn"] = undefined /*out*/;
+            resourceInputs["publicIpAddresses"] = undefined /*out*/;
+            resourceInputs["ram"] = undefined /*out*/;
+            resourceInputs["rootPassword"] = undefined /*out*/;
+            resourceInputs["status"] = undefined /*out*/;
+            resourceInputs["storage"] = undefined /*out*/;
+            resourceInputs["supersededBy"] = undefined /*out*/;
+            resourceInputs["supersedes"] = undefined /*out*/;
         }
-        if (!opts) {
-            opts = {}
-        }
-
-        if (!opts.version) {
-            opts.version = utilities.getVersion();
-        }
-        super(Server.__pulumiType, name, inputs, opts);
+        opts = pulumi.mergeOptions(utilities.resourceOptsDefaults(), opts);
+        const secretOpts = { additionalSecretOutputs: ["password"] };
+        opts = pulumi.mergeOptions(opts, secretOpts);
+        super(Server.__pulumiType, name, resourceInputs, opts);
     }
 }
 
@@ -116,30 +351,246 @@ export class Server extends pulumi.CustomResource {
  * Input properties used for looking up and filtering Server resources.
  */
 export interface ServerState {
-    readonly action?: pulumi.Input<string>;
-    readonly cpu?: pulumi.Input<string>;
-    readonly description?: pulumi.Input<string>;
-    readonly hostname?: pulumi.Input<string>;
-    readonly location?: pulumi.Input<string>;
-    readonly os?: pulumi.Input<string>;
-    readonly privateIpAddresses?: pulumi.Input<pulumi.Input<string>[]>;
-    readonly publicIpAddresses?: pulumi.Input<pulumi.Input<string>[]>;
-    readonly ram?: pulumi.Input<string>;
-    readonly sshKeys?: pulumi.Input<pulumi.Input<string>[]>;
-    readonly status?: pulumi.Input<string>;
-    readonly storage?: pulumi.Input<string>;
-    readonly type?: pulumi.Input<string>;
+    /**
+     * Action to perform on server. Allowed actions are: reboot, reset (deprecated), powered-on, powered-off, shutdown.
+     */
+    action?: pulumi.Input<string>;
+    /**
+     * Cloud-init configuration details. Structure is documented below.
+     */
+    cloudInit?: pulumi.Input<inputs.ServerCloudInit>;
+    /**
+     * The cluster reference id if any.
+     */
+    clusterId?: pulumi.Input<string>;
+    /**
+     * The number of physical cores present on each CPU.
+     */
+    coresPerCpu?: pulumi.Input<number>;
+    /**
+     * A description of the machine CPU.
+     */
+    cpu?: pulumi.Input<string>;
+    /**
+     * The number of CPUs available in the system.
+     */
+    cpuCount?: pulumi.Input<number>;
+    /**
+     * The CPU frequency in GHz.
+     */
+    cpuFrequencyInGhz?: pulumi.Input<number>;
+    /**
+     * Server description.
+     */
+    description?: pulumi.Input<string>;
+    /**
+     * Query parameter controlling advanced features availability. Currently applicable for networking. It is advised to use with caution since it might lead to unhealthy setups.
+     *
+     *
+     * The `cloudInit` block has one field:
+     */
+    force?: pulumi.Input<boolean>;
+    /**
+     * Server hostname.
+     */
+    hostname?: pulumi.Input<string>;
+    installDefaultSshKeys?: pulumi.Input<boolean>;
+    /**
+     * If true, OS will be installed to and booted from the server's RAM. On restart RAM OS will be lost and the server will not be reachable unless a custom bootable OS has been deployed. Only supported for ubuntu/focal. Default value is `false`.
+     */
+    installOsToRam?: pulumi.Input<boolean>;
+    /**
+     * Server Location ID. Cannot be changed once a server is created (e.g., PHX). For a full list of available locations visit [API docs](https://developers.phoenixnap.com/docs/bmc/1)
+     */
+    location?: pulumi.Input<string>;
+    /**
+     * Define list of IPs allowed to access the Management UI. Supported in single IP, CIDR and range format. When undefined, Management UI is disabled.Must contain at least 1 item.
+     */
+    managementAccessAllowedIps?: pulumi.Input<pulumi.Input<string>[]>;
+    /**
+     * The URL of the management UI which will only be returned in response to provisioning a server.
+     */
+    managementUiUrl?: pulumi.Input<string>;
+    /**
+     * Netris Controller configuration properties. Knowledge base article to help you can be found [here](https://phoenixnap.com/kb/netris-bare-metal-cloud#deploy-netris-controller).
+     */
+    netrisControllers?: pulumi.Input<pulumi.Input<inputs.ServerNetrisController>[]>;
+    /**
+     * Netris Softgate configuration properties. Follow [instructions](https://phoenixnap.com/kb/netris-bare-metal-cloud#deploy-netris-softgate) for retrieving the required details. Structure is documented below.
+     */
+    netrisSoftgate?: pulumi.Input<inputs.ServerNetrisSoftgate>;
+    /**
+     * Entire network details of bare metal server. Structure is documented below.
+     */
+    networkConfiguration?: pulumi.Input<inputs.ServerNetworkConfiguration>;
+    /**
+     * The type of network configuration for this server. Currently this field should be set to PUBLIC_AND_PRIVATE, PRIVATE_ONLY, PUBLIC_ONLY or USER_DEFINED. Setting the force query parameter to `true` allows you to configure network configuration type as NONE.
+     */
+    networkType?: pulumi.Input<string>;
+    /**
+     * The server’s OS ID used when the server was created (e.g., ubuntu/bionic, centos/centos7). For a full list of available operating systems visit [API docs](https://developers.phoenixnap.com/docs/bmc/1).
+     */
+    os?: pulumi.Input<string>;
+    /**
+     * Password set for user Admin on Windows server which will only be returned in response to provisioning a server.
+     */
+    password?: pulumi.Input<string>;
+    /**
+     * Server pricing model. Currently this field should be set to HOURLY, ONE_MONTH_RESERVATION, TWELVE_MONTHS_RESERVATION, TWENTY_FOUR_MONTHS_RESERVATION or THIRTY_SIX_MONTHS_RESERVATION.
+     */
+    pricingModel?: pulumi.Input<string>;
+    /**
+     * Private IP Addresses assigned to server. Must contain at least 1 item.
+     */
+    privateIpAddresses?: pulumi.Input<pulumi.Input<string>[]>;
+    /**
+     * Date and time when server was provisioned.
+     */
+    provisionedOn?: pulumi.Input<string>;
+    /**
+     * Public IP Addresses assigned to server. Must contain at least 1 item.
+     */
+    publicIpAddresses?: pulumi.Input<pulumi.Input<string>[]>;
+    /**
+     * A description of the machine RAM.
+     */
+    ram?: pulumi.Input<string>;
+    /**
+     * List of IPs allowed for RDP access to Windows OS. Supported in single IP, CIDR and range format. When undefined, RDP is disabled. To allow RDP access from any IP use 0.0.0.0/0. Must contain at least 1 item.
+     */
+    rdpAllowedIps?: pulumi.Input<pulumi.Input<string>[]>;
+    /**
+     * Server reservation ID.
+     */
+    reservationId?: pulumi.Input<string>;
+    /**
+     * Password set for user root on an ESXi server which will only be returned in response to provisioning a server.
+     */
+    rootPassword?: pulumi.Input<string>;
+    /**
+     * A list of SSH key IDs that will be installed on the server in addition to any SSH keys specified in this request.
+     */
+    sshKeyIds?: pulumi.Input<pulumi.Input<string>[]>;
+    /**
+     * A list of SSH Keys that will be installed on the server.
+     */
+    sshKeys?: pulumi.Input<pulumi.Input<string>[]>;
+    /**
+     * The status of the server.
+     */
+    status?: pulumi.Input<string>;
+    /**
+     * A description of the machine storage.
+     */
+    storage?: pulumi.Input<string>;
+    /**
+     * Storage configuration. Structure is documented below.
+     */
+    storageConfiguration?: pulumi.Input<inputs.ServerStorageConfiguration>;
+    /**
+     * Unique identifier of the server to which the reservation has been transferred.
+     */
+    supersededBy?: pulumi.Input<string>;
+    /**
+     * Unique identifier of the server from which the reservation has been transferred.
+     */
+    supersedes?: pulumi.Input<string>;
+    /**
+     * Tags to set to server, if any. Structure is documented below.
+     */
+    tags?: pulumi.Input<pulumi.Input<inputs.ServerTag>[]>;
+    /**
+     * Server type ID. Cannot be changed once a server is created (e.g., s1.c1.small, s1.c1.medium). For a full list of available types visit [API docs](https://developers.phoenixnap.com/docs/bmc/1).
+     */
+    type?: pulumi.Input<string>;
 }
 
 /**
  * The set of arguments for constructing a Server resource.
  */
 export interface ServerArgs {
-    readonly action?: pulumi.Input<string>;
-    readonly description?: pulumi.Input<string>;
-    readonly hostname: pulumi.Input<string>;
-    readonly location: pulumi.Input<string>;
-    readonly os: pulumi.Input<string>;
-    readonly sshKeys: pulumi.Input<pulumi.Input<string>[]>;
-    readonly type: pulumi.Input<string>;
+    /**
+     * Action to perform on server. Allowed actions are: reboot, reset (deprecated), powered-on, powered-off, shutdown.
+     */
+    action?: pulumi.Input<string>;
+    /**
+     * Cloud-init configuration details. Structure is documented below.
+     */
+    cloudInit?: pulumi.Input<inputs.ServerCloudInit>;
+    /**
+     * Server description.
+     */
+    description?: pulumi.Input<string>;
+    /**
+     * Query parameter controlling advanced features availability. Currently applicable for networking. It is advised to use with caution since it might lead to unhealthy setups.
+     *
+     *
+     * The `cloudInit` block has one field:
+     */
+    force?: pulumi.Input<boolean>;
+    /**
+     * Server hostname.
+     */
+    hostname: pulumi.Input<string>;
+    installDefaultSshKeys?: pulumi.Input<boolean>;
+    /**
+     * If true, OS will be installed to and booted from the server's RAM. On restart RAM OS will be lost and the server will not be reachable unless a custom bootable OS has been deployed. Only supported for ubuntu/focal. Default value is `false`.
+     */
+    installOsToRam?: pulumi.Input<boolean>;
+    /**
+     * Server Location ID. Cannot be changed once a server is created (e.g., PHX). For a full list of available locations visit [API docs](https://developers.phoenixnap.com/docs/bmc/1)
+     */
+    location: pulumi.Input<string>;
+    /**
+     * Define list of IPs allowed to access the Management UI. Supported in single IP, CIDR and range format. When undefined, Management UI is disabled.Must contain at least 1 item.
+     */
+    managementAccessAllowedIps?: pulumi.Input<pulumi.Input<string>[]>;
+    /**
+     * Netris Softgate configuration properties. Follow [instructions](https://phoenixnap.com/kb/netris-bare-metal-cloud#deploy-netris-softgate) for retrieving the required details. Structure is documented below.
+     */
+    netrisSoftgate?: pulumi.Input<inputs.ServerNetrisSoftgate>;
+    /**
+     * Entire network details of bare metal server. Structure is documented below.
+     */
+    networkConfiguration?: pulumi.Input<inputs.ServerNetworkConfiguration>;
+    /**
+     * The type of network configuration for this server. Currently this field should be set to PUBLIC_AND_PRIVATE, PRIVATE_ONLY, PUBLIC_ONLY or USER_DEFINED. Setting the force query parameter to `true` allows you to configure network configuration type as NONE.
+     */
+    networkType?: pulumi.Input<string>;
+    /**
+     * The server’s OS ID used when the server was created (e.g., ubuntu/bionic, centos/centos7). For a full list of available operating systems visit [API docs](https://developers.phoenixnap.com/docs/bmc/1).
+     */
+    os: pulumi.Input<string>;
+    /**
+     * Server pricing model. Currently this field should be set to HOURLY, ONE_MONTH_RESERVATION, TWELVE_MONTHS_RESERVATION, TWENTY_FOUR_MONTHS_RESERVATION or THIRTY_SIX_MONTHS_RESERVATION.
+     */
+    pricingModel?: pulumi.Input<string>;
+    /**
+     * List of IPs allowed for RDP access to Windows OS. Supported in single IP, CIDR and range format. When undefined, RDP is disabled. To allow RDP access from any IP use 0.0.0.0/0. Must contain at least 1 item.
+     */
+    rdpAllowedIps?: pulumi.Input<pulumi.Input<string>[]>;
+    /**
+     * Server reservation ID.
+     */
+    reservationId?: pulumi.Input<string>;
+    /**
+     * A list of SSH key IDs that will be installed on the server in addition to any SSH keys specified in this request.
+     */
+    sshKeyIds?: pulumi.Input<pulumi.Input<string>[]>;
+    /**
+     * A list of SSH Keys that will be installed on the server.
+     */
+    sshKeys?: pulumi.Input<pulumi.Input<string>[]>;
+    /**
+     * Storage configuration. Structure is documented below.
+     */
+    storageConfiguration?: pulumi.Input<inputs.ServerStorageConfiguration>;
+    /**
+     * Tags to set to server, if any. Structure is documented below.
+     */
+    tags?: pulumi.Input<pulumi.Input<inputs.ServerTag>[]>;
+    /**
+     * Server type ID. Cannot be changed once a server is created (e.g., s1.c1.small, s1.c1.medium). For a full list of available types visit [API docs](https://developers.phoenixnap.com/docs/bmc/1).
+     */
+    type: pulumi.Input<string>;
 }

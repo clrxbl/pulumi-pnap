@@ -2,7 +2,7 @@ CHANGELOG
 =========
 
 ## HEAD (Unreleased)
-_(none)_
+* Re-create the provider from the official Pulumi boilerplate
 ---
 
 ## 0.8.0 (2020-05-25)

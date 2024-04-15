@@ -1,3 +1,2 @@
-// A PNAP package for creating and managing cloud resources.
-//
+// A Pulumi package for creating and managing PhoenixNAP BMC resources.
 package pnap

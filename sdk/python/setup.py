@@ -7,37 +7,24 @@ from setuptools import setup, find_packages
 from setuptools.command.install import install
 from subprocess import check_call
 
-class InstallPluginCommand(install):
-    def run(self):
-        install.run(self)
-        try:
-            check_call(['pulumi', 'plugin', 'install', 'resource', 'pnap', '${PLUGIN_VERSION}'])
-        except OSError as error:
-            if error.errno == errno.ENOENT:
-                print("""
-                There was an error installing the pnap resource provider plugin.
-                It looks like `pulumi` is not installed on your system.
-                Please visit https://pulumi.com/ to install the Pulumi CLI.
-                You may try manually installing the plugin by running
-                `pulumi plugin install resource pnap ${PLUGIN_VERSION}`
-                """)
-            else:
-                raise
 
+VERSION = "0.0.0"
 def readme():
-    with open('README.md', encoding='utf-8') as f:
-        return f.read()
+    try:
+        with open('README.md', encoding='utf-8') as f:
+            return f.read()
+    except FileNotFoundError:
+        return "pnap Pulumi Package - Development Version"
+
 
 setup(name='pulumi_pnap',
-      version='${VERSION}',
-      description="A PNAP package for creating and managing cloud resources.",
+      python_requires='>=3.7',
+      version=VERSION,
+      description="A Pulumi package for creating and managing PhoenixNAP BMC resources.",
       long_description=readme(),
       long_description_content_type='text/markdown',
-      cmdclass={
-          'install': InstallPluginCommand,
-      },
-      keywords='pulumi pnap',
-      url='https://pulumi.io',
+      keywords='phoenixnap pnap category/cloud',
+      url='https://www.phoenixnap.com',
       project_urls={
           'Repository': 'https://github.com/phoenixnap/pulumi-pnap'
       },
@@ -45,12 +32,13 @@ setup(name='pulumi_pnap',
       packages=find_packages(),
       package_data={
           'pulumi_pnap': [
-              'py.typed'
+              'py.typed',
+              'pulumi-plugin.json',
           ]
       },
       install_requires=[
           'parver>=0.2.1',
-          'pulumi>=2.0.0,<3.0.0',
+          'pulumi>=3.0.0,<4.0.0',
           'semver>=2.8.1'
       ],
       zip_safe=False)

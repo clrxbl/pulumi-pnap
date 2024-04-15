@@ -1,4 +1,0 @@
-name: webserver-pnap
-description: An simple server on Pnap.
-runtime: nodejs
-

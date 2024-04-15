@@ -1,0 +1,1106 @@
+{
+    "auto-aliasing": {
+        "resources": {
+            "pnap_ip_block": {
+                "current": "pnap:index/ipBlock:IpBlock",
+                "fields": {
+                    "tags": {
+                        "maxItemsOne": false,
+                        "elem": {
+                            "fields": {
+                                "tag_assignment": {
+                                    "maxItemsOne": true
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "pnap_private_network": {
+                "current": "pnap:index/privateNetwork:PrivateNetwork",
+                "fields": {
+                    "memberships": {
+                        "maxItemsOne": false,
+                        "elem": {
+                            "fields": {
+                                "ips": {
+                                    "maxItemsOne": false
+                                }
+                            }
+                        }
+                    },
+                    "servers": {
+                        "maxItemsOne": false,
+                        "elem": {
+                            "fields": {
+                                "ips": {
+                                    "maxItemsOne": false
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "pnap_public_network": {
+                "current": "pnap:index/publicNetwork:PublicNetwork",
+                "fields": {
+                    "ip_blocks": {
+                        "maxItemsOne": false,
+                        "elem": {
+                            "fields": {
+                                "public_network_ip_block": {
+                                    "maxItemsOne": true
+                                }
+                            }
+                        }
+                    },
+                    "memberships": {
+                        "maxItemsOne": false,
+                        "elem": {
+                            "fields": {
+                                "ips": {
+                                    "maxItemsOne": false
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "pnap_rancher_cluster": {
+                "current": "pnap:index/rancherCluster:RancherCluster",
+                "fields": {
+                    "configuration": {
+                        "maxItemsOne": true,
+                        "elem": {
+                            "fields": {
+                                "certificates": {
+                                    "maxItemsOne": true
+                                }
+                            }
+                        }
+                    },
+                    "metadata": {
+                        "maxItemsOne": false
+                    },
+                    "node_pools": {
+                        "maxItemsOne": true,
+                        "elem": {
+                            "fields": {
+                                "nodes": {
+                                    "maxItemsOne": false
+                                },
+                                "ssh_config": {
+                                    "maxItemsOne": true,
+                                    "elem": {
+                                        "fields": {
+                                            "key_ids": {
+                                                "maxItemsOne": false
+                                            },
+                                            "keys": {
+                                                "maxItemsOne": false
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "workload_configuration": {
+                        "maxItemsOne": true
+                    }
+                }
+            },
+            "pnap_reservation": {
+                "current": "pnap:index/reservation:Reservation"
+            },
+            "pnap_server": {
+                "current": "pnap:index/server:Server",
+                "fields": {
+                    "cloud_init": {
+                        "maxItemsOne": true
+                    },
+                    "management_access_allowed_ips": {
+                        "maxItemsOne": false
+                    },
+                    "netris_controller": {
+                        "maxItemsOne": false
+                    },
+                    "netris_softgate": {
+                        "maxItemsOne": true
+                    },
+                    "network_configuration": {
+                        "maxItemsOne": true,
+                        "elem": {
+                            "fields": {
+                                "ip_blocks_configuration": {
+                                    "maxItemsOne": true,
+                                    "elem": {
+                                        "fields": {
+                                            "ip_blocks": {
+                                                "maxItemsOne": false,
+                                                "elem": {
+                                                    "fields": {
+                                                        "server_ip_block": {
+                                                            "maxItemsOne": true
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "private_network_configuration": {
+                                    "maxItemsOne": true,
+                                    "elem": {
+                                        "fields": {
+                                            "private_networks": {
+                                                "maxItemsOne": false,
+                                                "elem": {
+                                                    "fields": {
+                                                        "server_private_network": {
+                                                            "maxItemsOne": true,
+                                                            "elem": {
+                                                                "fields": {
+                                                                    "ips": {
+                                                                        "maxItemsOne": false
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "public_network_configuration": {
+                                    "maxItemsOne": true,
+                                    "elem": {
+                                        "fields": {
+                                            "public_networks": {
+                                                "maxItemsOne": false,
+                                                "elem": {
+                                                    "fields": {
+                                                        "server_public_network": {
+                                                            "maxItemsOne": true,
+                                                            "elem": {
+                                                                "fields": {
+                                                                    "ips": {
+                                                                        "maxItemsOne": false
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "private_ip_addresses": {
+                        "maxItemsOne": false
+                    },
+                    "public_ip_addresses": {
+                        "maxItemsOne": false
+                    },
+                    "rdp_allowed_ips": {
+                        "maxItemsOne": false
+                    },
+                    "ssh_key_ids": {
+                        "maxItemsOne": false
+                    },
+                    "ssh_keys": {
+                        "maxItemsOne": false
+                    },
+                    "storage_configuration": {
+                        "maxItemsOne": true,
+                        "elem": {
+                            "fields": {
+                                "root_partition": {
+                                    "maxItemsOne": true
+                                }
+                            }
+                        }
+                    },
+                    "tags": {
+                        "maxItemsOne": false,
+                        "elem": {
+                            "fields": {
+                                "tag_assignment": {
+                                    "maxItemsOne": true
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "pnap_ssh_key": {
+                "current": "pnap:index/sshKey:SshKey"
+            },
+            "pnap_storage_network": {
+                "current": "pnap:index/storageNetwork:StorageNetwork",
+                "fields": {
+                    "ips": {
+                        "maxItemsOne": false
+                    },
+                    "volumes": {
+                        "maxItemsOne": false,
+                        "elem": {
+                            "fields": {
+                                "volume": {
+                                    "maxItemsOne": true,
+                                    "elem": {
+                                        "fields": {
+                                            "permissions": {
+                                                "maxItemsOne": false,
+                                                "elem": {
+                                                    "fields": {
+                                                        "nfs": {
+                                                            "maxItemsOne": false,
+                                                            "elem": {
+                                                                "fields": {
+                                                                    "all_squash": {
+                                                                        "maxItemsOne": false
+                                                                    },
+                                                                    "no_squash": {
+                                                                        "maxItemsOne": false
+                                                                    },
+                                                                    "read_only": {
+                                                                        "maxItemsOne": false
+                                                                    },
+                                                                    "read_write": {
+                                                                        "maxItemsOne": false
+                                                                    },
+                                                                    "root_squash": {
+                                                                        "maxItemsOne": false
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            "tags": {
+                                                "maxItemsOne": false,
+                                                "elem": {
+                                                    "fields": {
+                                                        "tag_assignment": {
+                                                            "maxItemsOne": true
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "pnap_tag": {
+                "current": "pnap:index/tag:Tag",
+                "fields": {
+                    "resource_assignments": {
+                        "maxItemsOne": false
+                    },
+                    "values": {
+                        "maxItemsOne": false
+                    }
+                }
+            }
+        },
+        "datasources": {
+            "pnap_events": {
+                "current": "pnap:index/getEvents:getEvents",
+                "fields": {
+                    "events": {
+                        "maxItemsOne": false,
+                        "elem": {
+                            "fields": {
+                                "user_info": {
+                                    "maxItemsOne": false
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "pnap_invoices": {
+                "current": "pnap:index/getInvoices:getInvoices",
+                "fields": {
+                    "paginated_invoices": {
+                        "maxItemsOne": false,
+                        "elem": {
+                            "fields": {
+                                "results": {
+                                    "maxItemsOne": false
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "pnap_ip_block": {
+                "current": "pnap:index/getIpBlock:getIpBlock",
+                "fields": {
+                    "tags": {
+                        "maxItemsOne": false
+                    }
+                }
+            },
+            "pnap_locations": {
+                "current": "pnap:index/getLocations:getLocations",
+                "fields": {
+                    "locations": {
+                        "maxItemsOne": false,
+                        "elem": {
+                            "fields": {
+                                "product_categories": {
+                                    "maxItemsOne": false
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "pnap_private_network": {
+                "current": "pnap:index/getPrivateNetwork:getPrivateNetwork",
+                "fields": {
+                    "memberships": {
+                        "maxItemsOne": false,
+                        "elem": {
+                            "fields": {
+                                "ips": {
+                                    "maxItemsOne": false
+                                }
+                            }
+                        }
+                    },
+                    "servers": {
+                        "maxItemsOne": false,
+                        "elem": {
+                            "fields": {
+                                "ips": {
+                                    "maxItemsOne": false
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "pnap_product_availability": {
+                "current": "pnap:index/getProductAvailability:getProductAvailability",
+                "fields": {
+                    "location": {
+                        "maxItemsOne": false
+                    },
+                    "product_availabilities": {
+                        "maxItemsOne": false,
+                        "elem": {
+                            "fields": {
+                                "location_availability_details": {
+                                    "maxItemsOne": false,
+                                    "elem": {
+                                        "fields": {
+                                            "solutions": {
+                                                "maxItemsOne": false
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "product_category": {
+                        "maxItemsOne": false
+                    },
+                    "product_code": {
+                        "maxItemsOne": false
+                    },
+                    "solution": {
+                        "maxItemsOne": false
+                    }
+                }
+            },
+            "pnap_products": {
+                "current": "pnap:index/getProducts:getProducts",
+                "fields": {
+                    "products": {
+                        "maxItemsOne": false,
+                        "elem": {
+                            "fields": {
+                                "metadata": {
+                                    "maxItemsOne": false
+                                },
+                                "plans": {
+                                    "maxItemsOne": false
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "pnap_public_network": {
+                "current": "pnap:index/getPublicNetwork:getPublicNetwork",
+                "fields": {
+                    "ip_blocks": {
+                        "maxItemsOne": false
+                    },
+                    "memberships": {
+                        "maxItemsOne": false,
+                        "elem": {
+                            "fields": {
+                                "ips": {
+                                    "maxItemsOne": false
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "pnap_quota": {
+                "current": "pnap:index/getQuota:getQuota",
+                "fields": {
+                    "quota_edit_limit_request_details": {
+                        "maxItemsOne": false
+                    }
+                }
+            },
+            "pnap_rancher_cluster": {
+                "current": "pnap:index/getRancherCluster:getRancherCluster",
+                "fields": {
+                    "metadata": {
+                        "maxItemsOne": false
+                    },
+                    "node_pools": {
+                        "maxItemsOne": false,
+                        "elem": {
+                            "fields": {
+                                "nodes": {
+                                    "maxItemsOne": false
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "pnap_reservation": {
+                "current": "pnap:index/getReservation:getReservation"
+            },
+            "pnap_server": {
+                "current": "pnap:index/getServer:getServer",
+                "fields": {
+                    "netris_controller": {
+                        "maxItemsOne": false
+                    },
+                    "netris_softgate": {
+                        "maxItemsOne": false
+                    },
+                    "network_configuration": {
+                        "maxItemsOne": false,
+                        "elem": {
+                            "fields": {
+                                "ip_blocks_configuration": {
+                                    "maxItemsOne": false,
+                                    "elem": {
+                                        "fields": {
+                                            "ip_blocks": {
+                                                "maxItemsOne": false
+                                            }
+                                        }
+                                    }
+                                },
+                                "private_network_configuration": {
+                                    "maxItemsOne": false,
+                                    "elem": {
+                                        "fields": {
+                                            "private_networks": {
+                                                "maxItemsOne": false,
+                                                "elem": {
+                                                    "fields": {
+                                                        "ips": {
+                                                            "maxItemsOne": false
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "public_network_configuration": {
+                                    "maxItemsOne": false,
+                                    "elem": {
+                                        "fields": {
+                                            "public_networks": {
+                                                "maxItemsOne": false,
+                                                "elem": {
+                                                    "fields": {
+                                                        "ips": {
+                                                            "maxItemsOne": false
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "private_ip_addresses": {
+                        "maxItemsOne": false
+                    },
+                    "public_ip_addresses": {
+                        "maxItemsOne": false
+                    },
+                    "storage_configuration": {
+                        "maxItemsOne": false,
+                        "elem": {
+                            "fields": {
+                                "root_partition": {
+                                    "maxItemsOne": false
+                                }
+                            }
+                        }
+                    },
+                    "tags": {
+                        "maxItemsOne": false
+                    }
+                }
+            },
+            "pnap_ssh_key": {
+                "current": "pnap:index/getSshKey:getSshKey"
+            },
+            "pnap_storage_network": {
+                "current": "pnap:index/getStorageNetwork:getStorageNetwork",
+                "fields": {
+                    "ips": {
+                        "maxItemsOne": false
+                    },
+                    "volumes": {
+                        "maxItemsOne": false,
+                        "elem": {
+                            "fields": {
+                                "permissions": {
+                                    "maxItemsOne": false,
+                                    "elem": {
+                                        "fields": {
+                                            "nfs": {
+                                                "maxItemsOne": false,
+                                                "elem": {
+                                                    "fields": {
+                                                        "all_squash": {
+                                                            "maxItemsOne": false
+                                                        },
+                                                        "no_squash": {
+                                                            "maxItemsOne": false
+                                                        },
+                                                        "read_only": {
+                                                            "maxItemsOne": false
+                                                        },
+                                                        "read_write": {
+                                                            "maxItemsOne": false
+                                                        },
+                                                        "root_squash": {
+                                                            "maxItemsOne": false
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "tags": {
+                                    "maxItemsOne": false
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "pnap_tag": {
+                "current": "pnap:index/getTag:getTag",
+                "fields": {
+                    "resource_assignments": {
+                        "maxItemsOne": false
+                    },
+                    "values": {
+                        "maxItemsOne": false
+                    }
+                }
+            }
+        }
+    },
+    "auto-settings": {},
+    "renames": {
+        "resources": {
+            "pnap:index/ipBlock:IpBlock": "pnap_ip_block",
+            "pnap:index/privateNetwork:PrivateNetwork": "pnap_private_network",
+            "pnap:index/publicNetwork:PublicNetwork": "pnap_public_network",
+            "pnap:index/rancherCluster:RancherCluster": "pnap_rancher_cluster",
+            "pnap:index/reservation:Reservation": "pnap_reservation",
+            "pnap:index/server:Server": "pnap_server",
+            "pnap:index/sshKey:SshKey": "pnap_ssh_key",
+            "pnap:index/storageNetwork:StorageNetwork": "pnap_storage_network",
+            "pnap:index/tag:Tag": "pnap_tag"
+        },
+        "functions": {
+            "pnap:index/getEvents:getEvents": "pnap_events",
+            "pnap:index/getInvoices:getInvoices": "pnap_invoices",
+            "pnap:index/getIpBlock:getIpBlock": "pnap_ip_block",
+            "pnap:index/getLocations:getLocations": "pnap_locations",
+            "pnap:index/getPrivateNetwork:getPrivateNetwork": "pnap_private_network",
+            "pnap:index/getProductAvailability:getProductAvailability": "pnap_product_availability",
+            "pnap:index/getProducts:getProducts": "pnap_products",
+            "pnap:index/getPublicNetwork:getPublicNetwork": "pnap_public_network",
+            "pnap:index/getQuota:getQuota": "pnap_quota",
+            "pnap:index/getRancherCluster:getRancherCluster": "pnap_rancher_cluster",
+            "pnap:index/getReservation:getReservation": "pnap_reservation",
+            "pnap:index/getServer:getServer": "pnap_server",
+            "pnap:index/getSshKey:getSshKey": "pnap_ssh_key",
+            "pnap:index/getStorageNetwork:getStorageNetwork": "pnap_storage_network",
+            "pnap:index/getTag:getTag": "pnap_tag"
+        },
+        "renamedProperties": {
+            "pnap:index/IpBlockTag:IpBlockTag": {
+                "tagAssignment": "tag_assignment"
+            },
+            "pnap:index/IpBlockTagTagAssignment:IpBlockTagTagAssignment": {
+                "createdBy": "created_by",
+                "isBillingTag": "is_billing_tag"
+            },
+            "pnap:index/PrivateNetworkMembership:PrivateNetworkMembership": {
+                "resourceId": "resource_id",
+                "resourceType": "resource_type"
+            },
+            "pnap:index/PublicNetworkIpBlock:PublicNetworkIpBlock": {
+                "publicNetworkIpBlock": "public_network_ip_block"
+            },
+            "pnap:index/PublicNetworkMembership:PublicNetworkMembership": {
+                "resourceId": "resource_id",
+                "resourceType": "resource_type"
+            },
+            "pnap:index/RancherClusterConfiguration:RancherClusterConfiguration": {
+                "clusterDomain": "cluster_domain",
+                "etcdSnapshotRetention": "etcd_snapshot_retention",
+                "etcdSnapshotScheduleCron": "etcd_snapshot_schedule_cron",
+                "nodeTaint": "node_taint",
+                "tlsSan": "tls_san"
+            },
+            "pnap:index/RancherClusterConfigurationCertificates:RancherClusterConfigurationCertificates": {
+                "caCertificate": "ca_certificate",
+                "certificateKey": "certificate_key"
+            },
+            "pnap:index/RancherClusterNodePools:RancherClusterNodePools": {
+                "nodeCount": "node_count",
+                "serverType": "server_type",
+                "sshConfig": "ssh_config"
+            },
+            "pnap:index/RancherClusterNodePoolsNode:RancherClusterNodePoolsNode": {
+                "serverId": "server_id"
+            },
+            "pnap:index/RancherClusterNodePoolsSshConfig:RancherClusterNodePoolsSshConfig": {
+                "installDefaultKeys": "install_default_keys",
+                "keyIds": "key_ids"
+            },
+            "pnap:index/RancherClusterWorkloadConfiguration:RancherClusterWorkloadConfiguration": {
+                "serverCount": "server_count",
+                "serverType": "server_type"
+            },
+            "pnap:index/ServerCloudInit:ServerCloudInit": {
+                "userData": "user_data"
+            },
+            "pnap:index/ServerNetrisController:ServerNetrisController": {
+                "hostOs": "host_os",
+                "netrisUserPassword": "netris_user_password",
+                "netrisWebConsoleUrl": "netris_web_console_url"
+            },
+            "pnap:index/ServerNetrisSoftgate:ServerNetrisSoftgate": {
+                "controllerAddress": "controller_address",
+                "controllerAuthKey": "controller_auth_key",
+                "controllerVersion": "controller_version",
+                "hostOs": "host_os"
+            },
+            "pnap:index/ServerNetworkConfiguration:ServerNetworkConfiguration": {
+                "gatewayAddress": "gateway_address",
+                "ipBlocksConfiguration": "ip_blocks_configuration",
+                "privateNetworkConfiguration": "private_network_configuration",
+                "publicNetworkConfiguration": "public_network_configuration"
+            },
+            "pnap:index/ServerNetworkConfigurationIpBlocksConfiguration:ServerNetworkConfigurationIpBlocksConfiguration": {
+                "configurationType": "configuration_type",
+                "ipBlocks": "ip_blocks"
+            },
+            "pnap:index/ServerNetworkConfigurationIpBlocksConfigurationIpBlock:ServerNetworkConfigurationIpBlocksConfigurationIpBlock": {
+                "serverIpBlock": "server_ip_block"
+            },
+            "pnap:index/ServerNetworkConfigurationIpBlocksConfigurationIpBlockServerIpBlock:ServerNetworkConfigurationIpBlocksConfigurationIpBlockServerIpBlock": {
+                "vlanId": "vlan_id"
+            },
+            "pnap:index/ServerNetworkConfigurationPrivateNetworkConfiguration:ServerNetworkConfigurationPrivateNetworkConfiguration": {
+                "configurationType": "configuration_type",
+                "gatewayAddress": "gateway_address",
+                "privateNetworks": "private_networks"
+            },
+            "pnap:index/ServerNetworkConfigurationPrivateNetworkConfigurationPrivateNetwork:ServerNetworkConfigurationPrivateNetworkConfigurationPrivateNetwork": {
+                "serverPrivateNetwork": "server_private_network"
+            },
+            "pnap:index/ServerNetworkConfigurationPrivateNetworkConfigurationPrivateNetworkServerPrivateNetwork:ServerNetworkConfigurationPrivateNetworkConfigurationPrivateNetworkServerPrivateNetwork": {
+                "statusDescription": "status_description"
+            },
+            "pnap:index/ServerNetworkConfigurationPublicNetworkConfiguration:ServerNetworkConfigurationPublicNetworkConfiguration": {
+                "publicNetworks": "public_networks"
+            },
+            "pnap:index/ServerNetworkConfigurationPublicNetworkConfigurationPublicNetwork:ServerNetworkConfigurationPublicNetworkConfigurationPublicNetwork": {
+                "serverPublicNetwork": "server_public_network"
+            },
+            "pnap:index/ServerNetworkConfigurationPublicNetworkConfigurationPublicNetworkServerPublicNetwork:ServerNetworkConfigurationPublicNetworkConfigurationPublicNetworkServerPublicNetwork": {
+                "statusDescription": "status_description"
+            },
+            "pnap:index/ServerStorageConfiguration:ServerStorageConfiguration": {
+                "rootPartition": "root_partition"
+            },
+            "pnap:index/ServerTag:ServerTag": {
+                "tagAssignment": "tag_assignment"
+            },
+            "pnap:index/ServerTagTagAssignment:ServerTagTagAssignment": {
+                "createdBy": "created_by",
+                "isBillingTag": "is_billing_tag"
+            },
+            "pnap:index/StorageNetworkVolumeVolume:StorageNetworkVolumeVolume": {
+                "capacityInGb": "capacity_in_gb",
+                "createdOn": "created_on",
+                "deleteRequestedOn": "delete_requested_on",
+                "pathSuffix": "path_suffix",
+                "usedCapacityInGb": "used_capacity_in_gb"
+            },
+            "pnap:index/StorageNetworkVolumeVolumePermissionNf:StorageNetworkVolumeVolumePermissionNf": {
+                "allSquashes": "all_squash",
+                "noSquashes": "no_squash",
+                "readOnlies": "read_only",
+                "readWrites": "read_write",
+                "rootSquashes": "root_squash"
+            },
+            "pnap:index/StorageNetworkVolumeVolumeTag:StorageNetworkVolumeVolumeTag": {
+                "tagAssignment": "tag_assignment"
+            },
+            "pnap:index/StorageNetworkVolumeVolumeTagTagAssignment:StorageNetworkVolumeVolumeTagTagAssignment": {
+                "createdBy": "created_by",
+                "isBillingTag": "is_billing_tag"
+            },
+            "pnap:index/TagResourceAssignment:TagResourceAssignment": {
+                "resourceName": "resource_name"
+            },
+            "pnap:index/getEventsEvent:getEventsEvent": {
+                "userInfos": "user_info"
+            },
+            "pnap:index/getEventsEventUserInfo:getEventsEventUserInfo": {
+                "accountId": "account_id",
+                "clientId": "client_id"
+            },
+            "pnap:index/getInvoices:getInvoices": {
+                "paginatedInvoices": "paginated_invoices",
+                "sentOnFrom": "sent_on_from",
+                "sentOnTo": "sent_on_to",
+                "sortDirection": "sort_direction",
+                "sortField": "sort_field"
+            },
+            "pnap:index/getInvoicesPaginatedInvoiceResult:getInvoicesPaginatedInvoiceResult": {
+                "dueDate": "due_date",
+                "outstandingAmount": "outstanding_amount",
+                "sentOn": "sent_on"
+            },
+            "pnap:index/getIpBlock:getIpBlock": {
+                "assignedResourceId": "assigned_resource_id",
+                "assignedResourceType": "assigned_resource_type",
+                "cidrBlockSize": "cidr_block_size",
+                "createdOn": "created_on",
+                "isBringYourOwn": "is_bring_your_own"
+            },
+            "pnap:index/getIpBlockTag:getIpBlockTag": {
+                "createdBy": "created_by",
+                "isBillingTag": "is_billing_tag"
+            },
+            "pnap:index/getLocations:getLocations": {
+                "productCategory": "product_category"
+            },
+            "pnap:index/getLocationsLocation:getLocationsLocation": {
+                "locationDescription": "location_description",
+                "productCategories": "product_categories"
+            },
+            "pnap:index/getLocationsLocationProductCategory:getLocationsLocationProductCategory": {
+                "productCategory": "product_category",
+                "productCategoryDescription": "product_category_description"
+            },
+            "pnap:index/getPrivateNetwork:getPrivateNetwork": {
+                "createdOn": "created_on",
+                "locationDefault": "location_default",
+                "vlanId": "vlan_id"
+            },
+            "pnap:index/getPrivateNetworkMembership:getPrivateNetworkMembership": {
+                "resourceId": "resource_id",
+                "resourceType": "resource_type"
+            },
+            "pnap:index/getProductAvailability:getProductAvailability": {
+                "locations": "location",
+                "minQuantity": "min_quantity",
+                "productAvailabilities": "product_availabilities",
+                "productCategories": "product_category",
+                "productCodes": "product_code",
+                "showOnlyMinQuantityAvailable": "show_only_min_quantity_available",
+                "solutions": "solution"
+            },
+            "pnap:index/getProductAvailabilityProductAvailability:getProductAvailabilityProductAvailability": {
+                "locationAvailabilityDetails": "location_availability_details",
+                "productCategory": "product_category",
+                "productCode": "product_code"
+            },
+            "pnap:index/getProductAvailabilityProductAvailabilityLocationAvailabilityDetail:getProductAvailabilityProductAvailabilityLocationAvailabilityDetail": {
+                "availableQuantity": "available_quantity",
+                "minQuantityAvailable": "min_quantity_available",
+                "minQuantityRequested": "min_quantity_requested"
+            },
+            "pnap:index/getProducts:getProducts": {
+                "productCategory": "product_category",
+                "productCode": "product_code",
+                "skuCode": "sku_code"
+            },
+            "pnap:index/getProductsProduct:getProductsProduct": {
+                "metadatas": "metadata",
+                "productCategory": "product_category",
+                "productCode": "product_code"
+            },
+            "pnap:index/getProductsProductMetadata:getProductsProductMetadata": {
+                "coresPerCpu": "cores_per_cpu",
+                "cpuCount": "cpu_count",
+                "cpuFrequency": "cpu_frequency",
+                "ramInGb": "ram_in_gb"
+            },
+            "pnap:index/getProductsProductPlan:getProductsProductPlan": {
+                "correlatedProductCode": "correlated_product_code",
+                "packageQuantity": "package_quantity",
+                "packageUnit": "package_unit",
+                "priceUnit": "price_unit",
+                "pricingModel": "pricing_model",
+                "skuDescription": "sku_description"
+            },
+            "pnap:index/getPublicNetwork:getPublicNetwork": {
+                "createdOn": "created_on",
+                "ipBlocks": "ip_blocks",
+                "vlanId": "vlan_id"
+            },
+            "pnap:index/getPublicNetworkMembership:getPublicNetworkMembership": {
+                "resourceId": "resource_id",
+                "resourceType": "resource_type"
+            },
+            "pnap:index/getQuota:getQuota": {
+                "quotaEditLimitRequestDetails": "quota_edit_limit_request_details"
+            },
+            "pnap:index/getQuotaQuotaEditLimitRequestDetail:getQuotaQuotaEditLimitRequestDetail": {
+                "requestedOn": "requested_on"
+            },
+            "pnap:index/getRancherCluster:getRancherCluster": {
+                "initialClusterVersion": "initial_cluster_version",
+                "metadatas": "metadata",
+                "nodePools": "node_pools",
+                "statusDescription": "status_description"
+            },
+            "pnap:index/getRancherClusterNodePool:getRancherClusterNodePool": {
+                "nodeCount": "node_count",
+                "serverType": "server_type"
+            },
+            "pnap:index/getRancherClusterNodePoolNode:getRancherClusterNodePoolNode": {
+                "serverId": "server_id"
+            },
+            "pnap:index/getReservation:getReservation": {
+                "assignedResourceId": "assigned_resource_id",
+                "autoRenew": "auto_renew",
+                "endDateTime": "end_date_time",
+                "initialInvoiceModel": "initial_invoice_model",
+                "lastRenewalDateTime": "last_renewal_date_time",
+                "nextBillingDate": "next_billing_date",
+                "nextRenewalDateTime": "next_renewal_date_time",
+                "priceUnit": "price_unit",
+                "productCategory": "product_category",
+                "productCode": "product_code",
+                "reservationModel": "reservation_model",
+                "startDateTime": "start_date_time"
+            },
+            "pnap:index/getServer:getServer": {
+                "netrisControllers": "netris_controller",
+                "netrisSoftgates": "netris_softgate",
+                "networkConfigurations": "network_configuration",
+                "networkType": "network_type",
+                "primaryIpAddress": "primary_ip_address",
+                "privateIpAddresses": "private_ip_addresses",
+                "publicIpAddresses": "public_ip_addresses",
+                "storageConfigurations": "storage_configuration",
+                "supersededBy": "superseded_by"
+            },
+            "pnap:index/getServerNetrisController:getServerNetrisController": {
+                "hostOs": "host_os"
+            },
+            "pnap:index/getServerNetrisSoftgate:getServerNetrisSoftgate": {
+                "hostOs": "host_os"
+            },
+            "pnap:index/getServerNetworkConfiguration:getServerNetworkConfiguration": {
+                "gatewayAddress": "gateway_address",
+                "ipBlocksConfigurations": "ip_blocks_configuration",
+                "privateNetworkConfigurations": "private_network_configuration",
+                "publicNetworkConfigurations": "public_network_configuration"
+            },
+            "pnap:index/getServerNetworkConfigurationIpBlocksConfiguration:getServerNetworkConfigurationIpBlocksConfiguration": {
+                "configurationType": "configuration_type",
+                "ipBlocks": "ip_blocks"
+            },
+            "pnap:index/getServerNetworkConfigurationIpBlocksConfigurationIpBlock:getServerNetworkConfigurationIpBlocksConfigurationIpBlock": {
+                "vlanId": "vlan_id"
+            },
+            "pnap:index/getServerNetworkConfigurationPrivateNetworkConfiguration:getServerNetworkConfigurationPrivateNetworkConfiguration": {
+                "configurationType": "configuration_type",
+                "privateNetworks": "private_networks"
+            },
+            "pnap:index/getServerNetworkConfigurationPrivateNetworkConfigurationPrivateNetwork:getServerNetworkConfigurationPrivateNetworkConfigurationPrivateNetwork": {
+                "statusDescription": "status_description"
+            },
+            "pnap:index/getServerNetworkConfigurationPublicNetworkConfiguration:getServerNetworkConfigurationPublicNetworkConfiguration": {
+                "publicNetworks": "public_networks"
+            },
+            "pnap:index/getServerNetworkConfigurationPublicNetworkConfigurationPublicNetwork:getServerNetworkConfigurationPublicNetworkConfigurationPublicNetwork": {
+                "statusDescription": "status_description"
+            },
+            "pnap:index/getServerStorageConfiguration:getServerStorageConfiguration": {
+                "rootPartitions": "root_partition"
+            },
+            "pnap:index/getServerTag:getServerTag": {
+                "createdBy": "created_by",
+                "isBillingTag": "is_billing_tag"
+            },
+            "pnap:index/getStorageNetwork:getStorageNetwork": {
+                "createdOn": "created_on",
+                "deleteRequestedOn": "delete_requested_on",
+                "networkId": "network_id"
+            },
+            "pnap:index/getStorageNetworkVolume:getStorageNetworkVolume": {
+                "capacityInGb": "capacity_in_gb",
+                "createdOn": "created_on",
+                "deleteRequestedOn": "delete_requested_on",
+                "pathSuffix": "path_suffix",
+                "usedCapacityInGb": "used_capacity_in_gb"
+            },
+            "pnap:index/getStorageNetworkVolumePermissionNf:getStorageNetworkVolumePermissionNf": {
+                "allSquashes": "all_squash",
+                "noSquashes": "no_squash",
+                "readOnlies": "read_only",
+                "readWrites": "read_write",
+                "rootSquashes": "root_squash"
+            },
+            "pnap:index/getStorageNetworkVolumeTag:getStorageNetworkVolumeTag": {
+                "createdBy": "created_by",
+                "isBillingTag": "is_billing_tag"
+            },
+            "pnap:index/getTag:getTag": {
+                "createdBy": "created_by",
+                "isBillingTag": "is_billing_tag",
+                "resourceAssignments": "resource_assignments"
+            },
+            "pnap:index/getTagResourceAssignment:getTagResourceAssignment": {
+                "resourceName": "resource_name"
+            },
+            "pnap:index/ipBlock:IpBlock": {
+                "assignedResourceId": "assigned_resource_id",
+                "assignedResourceType": "assigned_resource_type",
+                "cidrBlockSize": "cidr_block_size",
+                "createdOn": "created_on",
+                "isBringYourOwn": "is_bring_your_own"
+            },
+            "pnap:index/privateNetwork:PrivateNetwork": {
+                "createdOn": "created_on",
+                "locationDefault": "location_default",
+                "vlanId": "vlan_id"
+            },
+            "pnap:index/publicNetwork:PublicNetwork": {
+                "createdOn": "created_on",
+                "ipBlocks": "ip_blocks",
+                "vlanId": "vlan_id"
+            },
+            "pnap:index/rancherCluster:RancherCluster": {
+                "initialClusterVersion": "initial_cluster_version",
+                "metadatas": "metadata",
+                "nodePools": "node_pools",
+                "statusDescription": "status_description",
+                "workloadConfiguration": "workload_configuration"
+            },
+            "pnap:index/reservation:Reservation": {
+                "assignedResourceId": "assigned_resource_id",
+                "autoRenew": "auto_renew",
+                "autoRenewDisableReason": "auto_renew_disable_reason",
+                "endDateTime": "end_date_time",
+                "initialInvoiceModel": "initial_invoice_model",
+                "lastRenewalDateTime": "last_renewal_date_time",
+                "nextBillingDate": "next_billing_date",
+                "nextRenewalDateTime": "next_renewal_date_time",
+                "priceUnit": "price_unit",
+                "productCategory": "product_category",
+                "productCode": "product_code",
+                "reservationModel": "reservation_model",
+                "startDateTime": "start_date_time"
+            },
+            "pnap:index/server:Server": {
+                "cloudInit": "cloud_init",
+                "clusterId": "cluster_id",
+                "coresPerCpu": "cores_per_cpu",
+                "cpuCount": "cpu_count",
+                "cpuFrequencyInGhz": "cpu_frequency_in_ghz",
+                "installDefaultSshKeys": "install_default_ssh_keys",
+                "installOsToRam": "install_os_to_ram",
+                "managementAccessAllowedIps": "management_access_allowed_ips",
+                "managementUiUrl": "management_ui_url",
+                "netrisControllers": "netris_controller",
+                "netrisSoftgate": "netris_softgate",
+                "networkConfiguration": "network_configuration",
+                "networkType": "network_type",
+                "pricingModel": "pricing_model",
+                "privateIpAddresses": "private_ip_addresses",
+                "provisionedOn": "provisioned_on",
+                "publicIpAddresses": "public_ip_addresses",
+                "rdpAllowedIps": "rdp_allowed_ips",
+                "reservationId": "reservation_id",
+                "rootPassword": "root_password",
+                "sshKeyIds": "ssh_key_ids",
+                "sshKeys": "ssh_keys",
+                "storageConfiguration": "storage_configuration",
+                "supersededBy": "superseded_by"
+            },
+            "pnap:index/sshKey:SshKey": {
+                "createdOn": "created_on",
+                "lastUpdatedOn": "last_updated_on"
+            },
+            "pnap:index/storageNetwork:StorageNetwork": {
+                "clientVlan": "client_vlan",
+                "createdOn": "created_on",
+                "deleteRequestedOn": "delete_requested_on",
+                "networkId": "network_id"
+            },
+            "pnap:index/tag:Tag": {
+                "createdBy": "created_by",
+                "isBillingTag": "is_billing_tag",
+                "resourceAssignments": "resource_assignments"
+            },
+            "pnap:index:Provider": {
+                "clientId": "client_id",
+                "clientSecret": "client_secret",
+                "configFilePath": "config_file_path"
+            }
+        },
+        "renamedConfigProperties": {
+            "clientId": "client_id",
+            "clientSecret": "client_secret",
+            "configFilePath": "config_file_path"
+        }
+    }
+}
