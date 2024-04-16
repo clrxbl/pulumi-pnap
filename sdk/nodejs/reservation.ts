@@ -13,7 +13,7 @@ import * as utilities from "./utilities";
  *
  * ```typescript
  * import * as pulumi from "@pulumi/pulumi";
- * import * as pnap from "@pulumi/pnap";
+ * import * as pnap from "@phoenixnap/pulumi-pnap";
  *
  * // Create a reservation
  * const test_Reservation_1 = new pnap.Reservation("test-Reservation-1", {sku: "XXX-XXX-XXX"});

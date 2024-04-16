@@ -132,6 +132,8 @@ func Provider() tfbridge.ProviderInfo {
 			// "aws_ami": {Tok: tfbridge.MakeDataSource(mainPkg, mainMod, "getAmi")},
 		},
 		JavaScript: &tfbridge.JavaScriptInfo{
+			PackageName: "@phoenixnap/pulumi-pnap",
+
 			// List any npm dependencies and their versions
 			Dependencies: map[string]string{
 				"@pulumi/pulumi": "^3.0.0",
@@ -161,9 +163,14 @@ func Provider() tfbridge.ProviderInfo {
 			GenerateResourceContainerTypes: true,
 		},
 		CSharp: &tfbridge.CSharpInfo{
+			RootNamespace: "PhoenixNAP.Pulumi",
+
 			PackageReferences: map[string]string{
 				"Pulumi": "3.*",
 			},
+		},
+		Java: &tfbridge.JavaInfo{
+			BasePackage: "com.phoenixnap.pulumi",
 		},
 	}
 

@@ -4,7 +4,7 @@
 using System;
 using System.Collections.Immutable;
 
-namespace Pulumi.Pnap
+namespace PhoenixNAP.Pulumi.Pnap
 {
     public static class Config
     {

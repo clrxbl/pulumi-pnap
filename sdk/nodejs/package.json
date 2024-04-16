@@ -1,5 +1,5 @@
 {
-    "name": "@pulumi/pnap",
+    "name": "@phoenixnap/pulumi-pnap",
     "version": "${VERSION}",
     "description": "A Pulumi package for creating and managing PhoenixNAP BMC resources.",
     "keywords": [

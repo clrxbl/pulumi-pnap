@@ -15,7 +15,7 @@ import * as utilities from "./utilities";
  *
  * ```typescript
  * import * as pulumi from "@pulumi/pulumi";
- * import * as pnap from "@pulumi/pnap";
+ * import * as pnap from "@phoenixnap/pulumi-pnap";
  *
  * // Create an IP Block
  * const ip_block_1 = new pnap.IpBlock("ip-block-1", {

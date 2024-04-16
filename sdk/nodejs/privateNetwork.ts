@@ -14,7 +14,7 @@ import * as utilities from "./utilities";
  *
  * ```typescript
  * import * as pulumi from "@pulumi/pulumi";
- * import * as pnap from "@pulumi/pnap";
+ * import * as pnap from "@phoenixnap/pulumi-pnap";
  *
  * // Create a private network
  * const test_Network_33 = new pnap.PrivateNetwork("test-Network-33", {

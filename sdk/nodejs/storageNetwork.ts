@@ -13,7 +13,7 @@ import * as utilities from "./utilities";
  *
  * ```typescript
  * import * as pulumi from "@pulumi/pulumi";
- * import * as pnap from "@pulumi/pnap";
+ * import * as pnap from "@phoenixnap/pulumi-pnap";
  *
  * // Create a storage network and volume
  * const storage_Network_1 = new pnap.StorageNetwork("storage-Network-1", {
